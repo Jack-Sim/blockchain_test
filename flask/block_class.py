@@ -31,6 +31,12 @@ class Chain():
     def genesis_block(self):
         return Block(0, datetime.utcnow(), "genesis hash", "genesis")
 
+    def add_block(self, data):
+        self.blocks.append(Block(len(self.blocks), datetime.utcnow(), self.blocks[-1].hash, data))
 
-blockchain = Chain()
-print(blockchain.blocks[0].to_string())
+
+#blockchain = Chain()
+#
+#for i in range(20):
+#    blockchain.add_block(i**2)
+#    print(blockchain.blocks[i+1].to_string())

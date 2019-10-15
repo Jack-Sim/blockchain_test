@@ -1,5 +1,5 @@
 import hashlib
-from datetime.datetime import utcnow()
+from datetime import datetime
 
 class MinimalBlock():
 
@@ -12,7 +12,7 @@ class MinimalBlock():
 
     def hashing(self):
         key = hashlib.sha256()
-        key.update(str(self.index).endcode('utf-8'))
+        key.update(str(self.index).encode('utf-8'))
         key.update(str(self.timestamp).encode('utf-8'))
         key.update(str(self.data).encode('utf-8'))
         key.update(str(self.previous_hash).encode('utf-8'))
@@ -24,10 +24,10 @@ class MinimalChain():
         self.blocks = [self.get_genesis_block()]
 
     def get_genesis_block(self):
-        return MinimalBlock(0, utcnow(). "Genesis", 'arbitrary')
+        return MinimalBlock(0, datetime.utcnow(), "Genesis", 'arbitrary')
 
     def add_block(self, data):
-        self.blocks.append(MinimalBlock(len(self.blocks), utcnow(), data, self.blocks[-1].hash))
+        self.blocks.append(MinimalBlock(len(self.blocks), datetime.utcnow(), data, self.blocks[-1].hash))
 
     def get_chain_size(self): # exclude first block in chain
         return len(self.blocks)-1
@@ -73,5 +73,8 @@ class MinimalChain():
                 return self.fork(i-1)
             return self.fork(min_chain_size)
 
-
+chain = MinimalChain()
+for i in range(10):
+    chain.add_block(i**2)
+    print(chain.blocks[i].hash)
 
