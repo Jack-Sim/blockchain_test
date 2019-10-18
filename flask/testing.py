@@ -17,6 +17,10 @@ class TestBlockChainMethods(unittest.TestCase):
     def test_last_hash(self):
         for i in range(1,len(test_chain.blocks)):
             self.assertEqual(test_chain.blocks[i].last_hash, test_chain.blocks[i-1].hash)
+    def test_is_valid_chain(self):
+        self.assertTrue(test_chain.is_valid_chain)
+        test_chain.blocks.append(Block(len(test_chain.blocks), datetime.utcnow(), test_chain.blocks[-2].hash, data))
+        self.assertFalse(test_chain.is_valid_chain())
 
 
 if __name__ == '__main__':
