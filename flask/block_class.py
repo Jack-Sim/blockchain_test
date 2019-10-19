@@ -7,14 +7,17 @@ class Block():
         self.timestamp = timestamp
         self.last_hash = last_hash
         self.data = data
+        self.var_hash = 0
         self.hash = self.hash_block()
+        self.mined = False
 
     def hash_block(self):
         key = hashlib.sha256()
         key.update(str(self.index).encode('utf-8') +
             str(self.timestamp).encode('utf-8') +
             str(self.data).encode('utf-8') +
-            str(self.last_hash).encode('utf-8'))
+            str(self.last_hash).encode('utf-8') +
+            str(self.var_hash).encode('utf-8'))
         return key.hexdigest()
 
     def to_string(self):
@@ -22,20 +25,32 @@ class Block():
                 "timestamp":self.timestamp,
                 "data":self.data,
                 "last_hash":self.last_hash,
+                "vary_hash": self.var_hash,
                 "hash":self.hash})
+
+    def mine_block(self, difficulty, leading_char):
+        while str(self.hash)[0:difficulty] != str(leading_char * difficulty):
+            self.var_hash += 1
+            self.hash = self.hash_block()
+
+        self.mined = True
 
 
 
 class Chain():
 
-    def __init__(self):
+    def __init__(self, difficulty, leading_char):
         self.blocks = [self.genesis_block()]
+        self.difficulty = int(difficulty)
+        self.leading_char = str(leading_char)
 
     def genesis_block(self):
         return Block(0, datetime.utcnow(), "genesis hash", "genesis")
 
     def add_block(self, data):
-        self.blocks.append(Block(len(self.blocks), datetime.utcnow(), self.blocks[-1].hash, data))
+        block = Block(len(self.blocks), datetime.utcnow(), self.blocks[-1].hash, data)
+        block.mine_block(self.difficulty, self.leading_char)
+        self.blocks.append(block)
 
     def is_valid_chain(self):
 
@@ -53,7 +68,7 @@ class Chain():
         return True
 
 
-blockchain = Chain()
+blockchain = Chain(2, "0")
 
 for i in range(20):
     blockchain.add_block(i**2)
