@@ -23,16 +23,12 @@ class TestBlockChainMethods(unittest.TestCase):
             self.assertGreater(blockchain.blocks[i].timestamp, blockchain.blocks[i-1].timestamp)
     def test_last_hash(self):
         for i in range(1,len(blockchain.blocks)):
-    #        print(i)
-    #        print(test_chain.blocks[i].last_hash)
-    #        print(test_chain.blocks[i-1].hash)
             self.assertEqual(blockchain.blocks[i].last_hash, blockchain.blocks[i-1].hash)
     def test_is_valid_chain(self):
         self.assertTrue(blockchain.is_valid_chain)
         blockchain.blocks.append(Block(len(blockchain.blocks), datetime.utcnow(), blockchain.blocks[-2].hash, "data"))
         self.assertFalse(blockchain.is_valid_chain())
         blockchain.blocks = blockchain.blocks[:-1]
-
     def test_hash_starts_correctly(self):
         for i in range(1,len(blockchain.blocks)):
             self.assertEqual("fff", str(blockchain.blocks[i].hash)[:3])
