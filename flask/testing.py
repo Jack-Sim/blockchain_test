@@ -5,10 +5,6 @@ blockchain = Chain(3, "f")
 
 for i in range(1,21):
     blockchain.add_block(i**2)
-    #print(blockchain.blocks[i].to_string())
-print(len(blockchain.blocks))
-print(blockchain.blocks[-1].to_string())
-print(blockchain.blocks[-2].to_string())
 
 blockchain.is_valid_chain()
 

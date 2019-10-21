@@ -67,7 +67,7 @@ class Chain():
             return False, "Genesis block is incorrect"
 
         for i in range(1, len(self.blocks)):
-            
+
             if self.blocks[i].last_hash != self.blocks[i-1].hash or self.blocks[i].hash != self.blocks[i].hash_block():
                 print(f"Error in block {i}")
                 return False
@@ -78,9 +78,9 @@ class Chain():
         return True
 
 
-#blockchain = Chain(4, "f")
-#
-#for i in range(20):
-#    blockchain.add_block(i**2)
-#    print(blockchain.blocks[i+1].to_string())
-#blockchain.is_valid_chain()
+blockchain = Chain(4, "f")
+
+for i in range(20):
+    blockchain.add_block(i**2)
+    print(blockchain.blocks[i+1].to_string())
+blockchain.is_valid_chain()
