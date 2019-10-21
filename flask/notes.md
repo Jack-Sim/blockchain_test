@@ -17,3 +17,6 @@ themselves will have the following, variable and functional attributes:
 - **hash_block()** - *FUNCTION* to generate the hash of the current block
 - **to_string()** - *FUNCTION* to convert a block's data into a string and return it to users
 - **mine_block()** - *FUNCTION* to mine the block and ensure the appropriate level of difficulty has been attained
+
+## Flask application
+The flask application will be a web-based app that can host the blockchain and allow for "users" to mine new blocks on.

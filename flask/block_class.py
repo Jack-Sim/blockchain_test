@@ -42,7 +42,14 @@ class Chain():
     def __init__(self, difficulty, leading_char):
         self.blocks = [self.genesis_block()]
         self.difficulty = int(difficulty)
-        self.leading_char = str(leading_char)
+        if len(str(leading_char)) > 1:
+            print("ERROR - leading_char string is too long, using first character only")
+            self.leading_char = str(leading_char)[0]
+        elif str(leading_char) > "f":
+            print("ERROR - leading_char is out of acceptable range (0-9 or a-f) using f as leading_char")
+            self.leading_char = "f"
+        else:
+            self.leading_char = leading_char
 
     def genesis_block(self):
         return Block(0, datetime.utcnow(), "genesis hash", "genesis")
@@ -50,7 +57,9 @@ class Chain():
     def add_block(self, data):
         block = Block(len(self.blocks), datetime.utcnow(), self.blocks[-1].hash, data)
         block.mine_block(self.difficulty, self.leading_char)
-        self.blocks.append(block)
+        if block.mined:
+            self.blocks.append(block)
+
 
     def is_valid_chain(self):
 
@@ -58,6 +67,7 @@ class Chain():
             return False, "Genesis block is incorrect"
 
         for i in range(1, len(self.blocks)):
+            
             if self.blocks[i].last_hash != self.blocks[i-1].hash or self.blocks[i].hash != self.blocks[i].hash_block():
                 print(f"Error in block {i}")
                 return False
@@ -68,9 +78,9 @@ class Chain():
         return True
 
 
-blockchain = Chain(2, "0")
-
-for i in range(20):
-    blockchain.add_block(i**2)
-    print(blockchain.blocks[i+1].to_string())
-blockchain.is_valid_chain()
+#blockchain = Chain(4, "f")
+#
+#for i in range(20):
+#    blockchain.add_block(i**2)
+#    print(blockchain.blocks[i+1].to_string())
+#blockchain.is_valid_chain()
