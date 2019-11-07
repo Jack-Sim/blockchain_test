@@ -78,9 +78,9 @@ class Chain():
         return True
 
 
-blockchain = Chain(4, "f")
+#blockchain = Chain(4, "f")
 
-for i in range(20):
-    blockchain.add_block(i**2)
-    print(blockchain.blocks[i+1].to_string())
-blockchain.is_valid_chain()
+#for i in range(20):
+#    blockchain.add_block(i**2)
+#    print(blockchain.blocks[i+1].to_string())
+#blockchain.is_valid_chain()
