@@ -3,6 +3,7 @@ from flask import render_template, flash, redirect, url_for
 from flask_login import logout_user, current_user, login_user, login_required
 from app.forms import *
 from app.models import *
+#from app import chain
 
 @app.route('/')
 @app.route('/index')
@@ -19,7 +20,7 @@ def index():
             'body': 'The Avengers movie was so cool!'
         }
     ]
-    return render_template("index.html", user=user, title="Home", posts=posts)
+    return render_template("index.html", title="Home", posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -31,6 +32,7 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
+        #chain.add_block(user)
         return redirect(url_for('index'))
     return render_template("login.html", form=form)
 

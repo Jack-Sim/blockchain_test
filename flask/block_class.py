@@ -1,5 +1,6 @@
 import hashlib
 from datetime import datetime
+import pandas as pd
 
 class Block():
     def __init__(self, index, timestamp, last_hash, data):
@@ -10,6 +11,11 @@ class Block():
         self.var_hash = 0
         self.hash = self.hash_block()
         self.mined = False
+
+
+    def block_dict(self):
+        return {"index":self.index, "timestamp":self.timestamp, "last_hash":self.last_hash, "data":self.data,
+                        "var_hash":self.var_hash, "hash":self.hash,"mined":self.mined}
 
     def hash_block(self):
         key = hashlib.sha256()
@@ -77,10 +83,24 @@ class Chain():
         print("valid chain")
         return True
 
+    def chain_table(self):
+
+        genesis_block_data_dictionary = self.blocks[0].block_dict()
+
+        chain_table_output = pd.DataFrame(columns = genesis_block_data_dictionary.keys())
+        chain_table_output = chain_table_output.append(genesis_block_data_dictionary, ignore_index=True)
+
+        for i in range(1,len(self.blocks)):
+            current_block_dictionary = self.blocks[i].block_dict()
+            chain_table_output = chain_table_output.append(current_block_dictionary, ignore_index=True)
+
+        return chain_table_output
+
+
 
 #blockchain = Chain(4, "f")
 
 #for i in range(20):
-#    blockchain.add_block(i**2)
+#    blockchain.add_block(data = i**2)
 #    print(blockchain.blocks[i+1].to_string())
 #blockchain.is_valid_chain()
