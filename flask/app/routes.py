@@ -3,7 +3,9 @@ from flask import render_template, flash, redirect, url_for
 from flask_login import logout_user, current_user, login_user, login_required
 from app.forms import *
 from app.models import *
-#from app import chain
+from block_class import Block, Chain
+
+chain = Chain(4, "a")
 
 @app.route('/')
 @app.route('/index')
@@ -32,7 +34,8 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        #chain.add_block(user)
+        chain.add_block(user)
+        print(chain.blocks[-1].to_string())
         return redirect(url_for('index'))
     return render_template("login.html", form=form)
 
